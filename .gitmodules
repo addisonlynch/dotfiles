@@ -1,0 +1,3 @@
+[submodule "TECMINT_MONITOR"]
+	path = TECMINT_MONITOR
+	url = https://github.com/atarallo/TECMINT_MONITOR/
