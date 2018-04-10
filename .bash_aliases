@@ -1,3 +1,4 @@
+alias llm='ls -alF --block-size=m'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'

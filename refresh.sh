@@ -76,4 +76,4 @@ fi
 
 }
 #backup_dotfiles
-check_git
+echo check_git
