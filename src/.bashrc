@@ -145,3 +145,7 @@ export PYTHONSTARTUP="$HOME/src/pythonstartup.py"
 
 # this is the default value, no need to change it if you don't care
 export PYTHON_HISTORY_FILE="$HOME/.pythonhistory"
+
+if [ -f ~/.bash-preexec.sh ]; then
+     source ~/.bash-preexec.sh
+fi
