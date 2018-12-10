@@ -65,7 +65,7 @@ if [ "`git log --pretty=%H ...refs/heads/master^ | head -n 1`" = "`git ls-remote
     status=0
     statustxt="up to date"
 else
-    status=2
+    status=1
     statustxt="not up to date"
 fi
 

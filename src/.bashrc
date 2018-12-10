@@ -113,6 +113,8 @@ if ! shopt -oq posix; then
 fi
 
 export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3.6'
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
 
 # Don't let Python produce .pyc or .pyo. Left-overs can produce strange side-effects.
 export PYTHONDONTWRITEBYTECODE=true
@@ -149,3 +151,6 @@ export PYTHON_HISTORY_FILE="$HOME/.pythonhistory"
 if [ -f ~/.bash-preexec.sh ]; then
      source ~/.bash-preexec.sh
 fi
+
+# set editor
+export EDITOR="emacs -nw"

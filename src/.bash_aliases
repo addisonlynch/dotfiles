@@ -23,7 +23,7 @@ alias c='clear'
 # cp
 ####
 
-# prompt before overwrite  
+# prompt before overwrite
 alias cp='cp -iv'
 
 # ls
@@ -91,8 +91,8 @@ alias firewall='sudo /sbin/iptables -L -n -v --line-numbers'
 # Update and upgrade at the same time
 alias updateapt='sudo apt-get update && sudo apt-get upgrade'
 
-# Zips a folder 
-zipf () { zip -r "$1".zip "$1" ; }  
+# Zips a folder
+zipf () { zip -r "$1".zip "$1" ; }
 
 ii() {
     echo -e "\nYou are logged on ${RED}$HOST"
@@ -138,7 +138,6 @@ alias tkill='tmux kill-session -t'
 
 # Rename Session
 alias trename='tmux rename-session -t'
-
 
 ##########
 # PYTHON #
