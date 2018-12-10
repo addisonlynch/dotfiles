@@ -139,6 +139,9 @@ alias tkill='tmux kill-session -t'
 # Rename Session
 alias trename='tmux rename-session -t'
 
+# Load tmuxp session
+alias tstart='tmuxp load'
+
 ##########
 # PYTHON #
 ##########

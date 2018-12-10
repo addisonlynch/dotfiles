@@ -4,9 +4,9 @@ Below are my dotfiles. They contain aliases and other handy commands for making 
 
 ## Contents
 
-* [3rd Party Software](#3rd\ Party\ Software\ Used)
-* [Aliases](#Aliases)
-* [Environment Configuration](#Environment\ Configuration)
+* Third Party Softare Used
+* Aliases
+* Environment Configuration
 
 ## 3rd Party Software Used
 
@@ -87,6 +87,7 @@ I am an avid user of [tmux](https://github.com/tmux/tmux). Below are some aliase
 | ``tls`` | ``tmux ls`` | list sessions |
 | ``tkill`` | ``tmux kill-session -t`` | kill session|
 | ``trename`` | ``tmux rename-session -t`` | rename session |
+| ``tstart`` | ``tmuxp load`` | load session |
 
 #### .tmux.conf bindings
 
