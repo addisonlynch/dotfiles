@@ -94,6 +94,10 @@ I am an avid user of [tmux](https://github.com/tmux/tmux). Below are some aliase
 
 **\\\TODO**
 
+#### Plugins
+
+* [tmux-gitbar](https://github.com/arl/tmux-gitbar)
+
 
 ### Python
 
