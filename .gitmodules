@@ -4,3 +4,6 @@
 [submodule "src/.tmux/plugins/tmux-gitbar"]
 	path = src/.tmux/plugins/tmux-gitbar
 	url = https://github.com/arl/tmux-gitbar.git
+[submodule "src/.tmux/plugins/tpm"]
+	path = src/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
