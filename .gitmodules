@@ -1,3 +1,6 @@
 [submodule "TECMINT_MONITOR"]
 	path = TECMINT_MONITOR
 	url = https://github.com/atarallo/TECMINT_MONITOR/
+[submodule "src/.tmux/plugins/tmux-gitbar"]
+	path = src/.tmux/plugins/tmux-gitbar
+	url = https://github.com/arl/tmux-gitbar.git
