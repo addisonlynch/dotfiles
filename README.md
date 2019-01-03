@@ -96,7 +96,11 @@ I am an avid user of [tmux](https://github.com/tmux/tmux). Below are some aliase
 
 #### Plugins
 
+* [tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)
 * [tmux-gitbar](https://github.com/arl/tmux-gitbar)
+* [tmux-sidebar](https://github.com/tmux-plugins/tmux-sidebar)
+* [zoom](https://github.com/addisonlynch/dotfiles/blob/master/src/.tmux/plugins/zoom)
+    * Adds ``C-a x`` to toggle zooming of pane to fullscreen
 
 
 ### Python

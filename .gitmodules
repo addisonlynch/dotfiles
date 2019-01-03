@@ -7,3 +7,9 @@
 [submodule "src/.tmux/plugins/tpm"]
 	path = src/.tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "src/.tmux/plugins/tmux-cpu"]
+	path = src/.tmux/plugins/tmux-cpu
+	url = https://github.com/tmux-plugins/tmux-cpu
+[submodule "src/.tmux/plugins/tmux-sidebar"]
+	path = src/.tmux/plugins/tmux-sidebar
+	url = https://github.com/tmux-plugins/tmux-sidebar
