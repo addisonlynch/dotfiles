@@ -88,6 +88,7 @@ I am an avid user of [tmux](https://github.com/tmux/tmux). Below are some aliase
 | ``tkill`` | ``tmux kill-session -t`` | kill session|
 | ``trename`` | ``tmux rename-session -t`` | rename session |
 | ``tstart`` | ``tmuxp load`` | load session |
+| ``treload`` | ``tmux source-file ~/.tmux.conf`` | reload tmux from source |
 
 #### .tmux.conf bindings
 

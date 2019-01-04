@@ -142,6 +142,9 @@ alias trename='tmux rename-session -t'
 # Load tmuxp session
 alias tstart='tmuxp load'
 
+# Reload tmux source file
+alias treload='tmux source-file ~/.tmux.conf'
+
 ##########
 # PYTHON #
 ##########
