@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 """tlist.py
 
 Obtain a list of the available tmuxp environments
@@ -37,33 +38,25 @@ def get_tmux_sessions():
     return server.list_sessions()
 
 
-def get_tmux_session_names():
-    return [session.name for session in get_tmux_sessions()]
-
-
 def get_config_files():
-    files = []
     os.chdir(os.path.expanduser(TMUXP_DIR))
     for file in glob.glob("*.yaml"):
-        files.append(file.split('.')[0])
-    return files
+        yield file.split('.')[0]
 
 
 def print_output():
-    active_session_names = get_tmux_session_names()
     active_sessions = get_tmux_sessions()
-    all_sessions = get_config_files()
-
-    print("AVAILABLE TMUXP SESSIONS")
-    print()
-    for session in all_sessions:
+    active_session_names = [session.name for session in active_sessions]
+    result = "\nAVAILABLE TMUXP SESSIONS\n\n"
+    for session in get_config_files():
         if session in active_session_names:
             fs = [s for s in active_sessions if s.name == session][0]
             up_str = "RUNNING %s" % uptime(int(fs._info["session_created"]))
-            print(style.GREEN+style.BOLD+fs.name+style.RESET+" - "+up_str)
+            result += "%s%s%s%s - %s\n" % (style.GREEN, style.BOLD, fs.name,
+                                         style.RESET, up_str)
         else:
-            print(session)
-    print()
+            result += "%s\n" % session
+    print(result)
 
 
 def uptime(total_seconds):
