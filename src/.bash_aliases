@@ -133,6 +133,9 @@ alias tat='tmux att -t'
 # List sessions
 alias tls='tmux ls'
 
+# List all sessions including tmuxp
+alias tll='$HOME/dotbin/tlist.py'
+
 # Kill session
 alias tkill='tmux kill-session -t'
 
