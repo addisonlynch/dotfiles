@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+cd $HOME/.config
+
+echo "Cloning private dotfiles repo"
+git clone git@github.com:addisonlynch/dotfiles-private || exit 1
+ln -s $HOME/.config/dotfiles-private/src/.tmuxp $HOME/.tmuxp

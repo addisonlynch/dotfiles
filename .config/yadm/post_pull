@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+echo "Updating dotfiles-private"
+cd $HOME/.config/dotfiles-private
+git pull
