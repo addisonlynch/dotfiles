@@ -74,10 +74,10 @@ ffe () { /usr/bin/find . -name '*'"$@" ; }
 alias lsock='sudo /usr/bin/lsof -i -P'
 
 # List of open TCP sockets
-alias lsock_t='sudo /usr/bin/lsof -nP | grep UDP'
+alias lsock_t='sudo /usr/bin/lsof -nP | grep TDP'
 
 # List of open UDP sockets
-alias lsock_u='sudo /usr/bin/lsof -nP | grep TCP'
+alias lsock_u='sudo /usr/bin/lsof -nP | grep UCP'
 
 # List of open ports
 alias openPorts='sudo /usr/bin/lsof -i | grep LISTEN'
@@ -89,7 +89,7 @@ alias allPorts='sudo netstat -tulanp | grep LISTEN'
 alias firewall='sudo /sbin/iptables -L -n -v --line-numbers'
 
 # Update and upgrade at the same time
-alias updateapt='sudo apt-get update && sudo apt-get upgrade'
+alias updateapt='sudo apt-get update && sudo apt-get upgrade -y'
 
 # Zips a folder
 zipf () { zip -r "$1".zip "$1" ; }
@@ -135,6 +135,7 @@ alias tls='tmux ls'
 
 # List all sessions including tmuxp
 alias tll='python $HOME/dotbin/tlist.py'
+alias tlist='python $HOME/dotbin/tlist.py'
 
 # Kill session
 alias tkill='tmux kill-session -t'
@@ -170,6 +171,11 @@ alias pupdate='pip-review --auto'
 
 # Update pip packages (step through one-by-one)
 alias pupdate_i='pip-review --interactive'
+
+##########
+# DOCKER #
+##########
+
 
 
 ############
