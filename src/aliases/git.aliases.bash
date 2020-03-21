@@ -1,6 +1,6 @@
 
 # Aliases
-alias gcl='$HOME/git/git_clone.py'
+alias gcl='$HOME/dotbin/git_clone.py'
 alias ga='git add'
 alias grm='git rm'
 alias gap='git add -p'

@@ -11,17 +11,12 @@ Below are my dotfiles. They contain aliases and other handy commands for making 
 ## 3rd Party Software Used
 
 
-
-* [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
-	* *managing virtualenvs*
 * [pip-review](https://github.com/jgonggrijp/pip-review)
 	* *managing pip packages*
 * [GRC (coloring)](https://github.com/garabik/grc)
 	* *colorization*
 * [dotfiles-framework](https://github.com/wking/dotfiles-framework)
 	* *managing dotfiles*
-* [pip](https://pypi.org/project/pip/)
-    * *Python package manager*
 
 
 ## Aliases
@@ -111,7 +106,6 @@ Below are some Python-related aliases
 
 | Alias | Command | Notes
 | :---- | :--- | :---|
-| ``pywork`` | ``source /usr/local/bin/virtualenvwrapper.sh`` | activate [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) |
 | ``python3`` | ``python3.6`` | forces Python 3.6 shell |
 | ``pip3`` | ``pip3.6`` | forces pip 3.6 |
 | ``pip`` | ``python2.7 -m pip`` | forces pip 2.7 |
