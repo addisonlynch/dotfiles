@@ -26,7 +26,7 @@ fi
 # TMUX #
 ########
 
-if [ -f ~/aliases/tmux.aliases.bash]; then
+if [ -f ~/aliases/tmux.aliases.bash ]; then
     . ~/aliases/tmux.aliases.bash
 fi
 
@@ -34,7 +34,7 @@ fi
 # PYTHON #
 ##########
 
-if [ -f ~/aliases/python.aliases.bash]; then
+if [ -f ~/aliases/python.aliases.bash ]; then
     . ~/aliases/python.aliases.bash 
 fi
 
@@ -42,7 +42,7 @@ fi
 # DOCKER #
 ##########
 
-if [ -f ~/aliases/docker.aliases.bash]; then
+if [ -f ~/aliases/docker.aliases.bash ]; then
     . ~/aliases/docker.aliases.bash 
 fi
 
