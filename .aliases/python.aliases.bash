@@ -1,5 +1,5 @@
-alias python3='python3.6'
-alias pip3='pip3.6'
+alias python3='python3.8'
+alias pip3='python3.8 -m pip'
 alias pip='python2.7 -m pip'
 
 

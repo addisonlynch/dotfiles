@@ -106,8 +106,8 @@ Below are some Python-related aliases
 
 | Alias | Command | Notes
 | :---- | :--- | :---|
-| ``python3`` | ``python3.6`` | forces Python 3.6 shell |
-| ``pip3`` | ``pip3.6`` | forces pip 3.6 |
+| ``python3`` | ``python3.8`` | forces Python 3.8 shell |
+| ``pip3`` | ``python3.8 -m pip`` | forces pip 3.8 |
 | ``pip`` | ``python2.7 -m pip`` | forces pip 2.7 |
 | ``preview`` | ``pip-review`` | pip status using [pip-review](https://github.com/jgonggrijp/pip-review) |
 | ``pupdate`` | ``pip-review --auto`` | update all pip packages automatically |
