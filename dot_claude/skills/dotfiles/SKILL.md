@@ -30,18 +30,33 @@ Manage the chezmoi dotfiles repo at `~/Documents/dotfiles2026`.
 ### Detect drift (`/dotfiles` with no args)
 
 1. Run `chezmoi status` to list all managed files and their state
-2. Run `chezmoi diff` to show the actual diff
-3. Summarize: what changed on disk vs. what's in the repo, and in which direction
-4. Ask the user what they want to do (sync to repo, apply from repo, or nothing)
+2. Run `chezmoi diff` (repo→disk direction) and `chezmoi diff --reverse` (disk→repo direction)
+3. Present drift grouped by file with a one-line summary per file — what changed and in which direction:
+   ```
+   ~/.zshrc          → repo has more (disk is missing 34 lines)
+   ~/.claude/CLAUDE.md → disk has more (new content not in repo)
+   ```
+4. Ask the user what they want to do with each (sync to repo, apply from repo, or skip)
 
 ### Sync disk → repo (`/dotfiles sync`)
 
 This is the "I made changes on my machine, commit them" flow.
 
-1. Run `chezmoi re-add` to pull disk changes back into the source repo
-2. Run `git -C ~/Documents/dotfiles2026 diff` to review what changed
-3. Stage and commit with a short descriptive message
-4. Do NOT push — user pushes explicitly
+1. Check current branch with `git -C ~/Documents/dotfiles2026 branch --show-current`
+   - If on `master`: warn the user and ask for confirmation before proceeding. Suggest creating a feature branch instead.
+   - If on any other branch: proceed without prompting.
+2. Run `chezmoi diff --reverse` to preview what re-add would do — this shows disk→repo direction WITHOUT writing anything.
+3. Parse the diff and present it grouped by file with a short summary of what changed in each:
+   ```
+   ~/.zshrc          — 34 lines removed (stripped to 2 lines)
+   ~/.gitconfig      — [core] and [init] sections missing
+   ~/.claude/CLAUDE.md — full rewrite (expected)
+   ```
+4. Ask the user which files to sync. Default to none — require explicit confirmation per file or "all".
+5. For approved files only, run `chezmoi re-add <path>` individually (chezmoi re-add accepts specific paths).
+6. Stage only the approved files: `git -C ~/Documents/dotfiles2026 add <paths>`
+7. Commit with a short descriptive message.
+8. Do NOT push — user pushes explicitly.
 
 ### Apply repo → disk (`/dotfiles apply`)
 
