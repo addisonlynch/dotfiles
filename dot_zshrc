@@ -1,0 +1,36 @@
+# ── History ──────────────────────────────────────────────
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS HIST_IGNORE_SPACE SHARE_HISTORY APPEND_HISTORY
+
+# ── Options ─────────────────────────────────────────────
+setopt AUTO_CD
+setopt CORRECT
+setopt NO_BEEP
+
+# ── Completion ──────────────────────────────────────────
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' menu select
+
+# ── pyenv ───────────────────────────────────────────────
+eval "$(pyenv init -)"
+
+# ── Editor ──────────────────────────────────────────────
+export EDITOR="code --wait"
+export VISUAL="code --wait"
+
+# ── Path ────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+# ── Source modules ──────────────────────────────────────
+for f in ~/.config/zsh/*.zsh; do
+  [ -f "$f" ] && source "$f"
+done
+
+# ── fzf ─────────────────────────────────────────────────
+source <(fzf --zsh)
+
+# ── zoxide ──────────────────────────────────────────────
+eval "$(zoxide init zsh)"

@@ -1,3 +1,4 @@
-patched-src/
-local-patch/
-*.tar
+.DS_Store
+*.swp
+*.swo
+*~
