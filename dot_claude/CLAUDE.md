@@ -73,31 +73,6 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 **Never act on these without explicit confirmation:** pushes, DB changes, deleting data, production-affecting commands, force operations.
 
-## 7. Pull Requests
-
-### Description structure
-
-1. **Why** — 1-2 sentences. Problem solved, business value, what prompted the change.
-2. **What** — Bulleted list. **Bold lead** — what the change enables (not just what changed).
-3. **Test plan** — Checkbox list: lint passes, tests pass, specific smoke tests.
-
-### Writing guidelines
-
-- Present tense, active voice: "Add support for..." not "Added support for..."
-- Titles under 70 characters. Details go in the body.
-- No implementation commentary in the body — that belongs in commits or comments.
-- If the PR requires secrets, env changes, or post-merge steps, call them out explicitly.
-
-### Quality gate
-
-Before opening a PR, run the project's verification suite (lint + test at minimum). Use `/open-pr` to orchestrate the full pipeline.
-
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
-
-# Skills
-- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
-- **open-pr** (`~/.claude/skills/open-pr/SKILL.md`) - full pre-PR quality pipeline (verify + deslop + PR). Trigger: `/open-pr`
-
-When the user types `/graphify` or `/open-pr`, invoke the Skill tool with the corresponding skill name before doing anything else.
