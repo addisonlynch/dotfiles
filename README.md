@@ -11,9 +11,7 @@ My macOS dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 | `dot_gitconfig` | Git identity and editor |
 | `dot_config/zsh/aliases.zsh` | Shell aliases — navigation, ls, shortcuts for lazygit/yazi |
 | `dot_config/zsh/git.zsh` | ~30 git aliases (gs, gd, ga, gc, gco, gp, etc.) |
-| `dot_claude/CLAUDE.md` | Global Claude Code behavioral guidelines |
-| `dot_claude/settings.json` | Claude Code permissions, hooks, and enabled plugins |
-| `dot_claude/skills/` | Global Claude Code skills (dotfiles, graphify, grill-me, Python patterns, etc.) |
+| `dot_claude/` | Claude Code config — guidelines, settings, skills ([details](dot_claude/README.md)) |
 | `Brewfile` | Declarative list of brew packages and casks |
 
 ## Why
@@ -33,13 +31,7 @@ Dotfiles in a repo means:
    chezmoi init addisonlynch/dotfiles
    chezmoi apply
    ```
-4. Install third-party Claude skills (not tracked in this repo — managed by their own CLIs):
-   ```sh
-   pip install graphifyy && graphify install
-   npx skills add -g pbakaus/impeccable
-   npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
-   npx skills add -g wispbit-ai/skills --skill sqlalchemy-alembic-expert-best-practices-code-review
-   ```
+4. Install third-party Claude skills (see [dot_claude/README.md](dot_claude/README.md))
 
 ## Day-to-day usage
 
@@ -60,17 +52,6 @@ chezmoi diff              # preview what apply would write to disk
 chezmoi diff --reverse    # preview what re-add would write to repo
 chezmoi re-add ~/.zshrc   # pull a specific file's disk state into the repo
 chezmoi apply             # apply all tracked files to disk
-```
-
-## Claude Code skills
-
-Skills in `dot_claude/skills/` are applied to `~/.claude/skills/` by chezmoi and are immediately available in Claude Code. Third-party skills installed via `npx skills add` are **not** tracked here — reinstall them on a new machine using the bootstrap command above.
-
-To add a new hand-written skill to the repo:
-```sh
-# After creating the skill at ~/.claude/skills/my-skill/SKILL.md
-chezmoi add ~/.claude/skills/my-skill
-# then /dotfiles sync to commit it
 ```
 
 ## Tools included
