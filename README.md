@@ -37,6 +37,7 @@ Dotfiles in a repo means:
    ```sh
    npx skills add -g pbakaus/impeccable
    npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
+   npx skills add -g wispbit-ai/skills --skill sqlalchemy-alembic-expert-best-practices-code-review
    ```
 
 ## Day-to-day usage
