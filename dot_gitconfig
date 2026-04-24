@@ -1,0 +1,7 @@
+[user]
+	name = addisonlynch
+	email = ahlshop@gmail.com
+[core]
+	editor = code --wait
+[init]
+	defaultBranch = main

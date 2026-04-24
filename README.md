@@ -1,171 +1,58 @@
-# Addison Lynch's Dotfiles
+# dotfiles
 
-Below are my dotfiles. They contain aliases and other handy commands for making life easier in a Linux development environment. I hope to customize a Mac version soon.
+My macOS dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 
-## Contents
+## What's in here
 
-* Third Party Softare Used
-* Aliases
-* Environment Configuration
+| File | What it does |
+|---|---|
+| `dot_zshrc` | Shell config — history, completion, pyenv, fzf, zoxide, module loading |
+| `dot_zprofile` | Login shell — Homebrew and nvm initialization |
+| `dot_gitconfig` | Git identity and editor |
+| `dot_config/zsh/aliases.zsh` | Shell aliases — navigation, ls, shortcuts for lazygit/yazi |
+| `dot_config/zsh/git.zsh` | ~30 git aliases (gs, gd, ga, gc, gco, gp, etc.) |
+| `Brewfile` | Declarative list of brew packages and casks |
 
-## 3rd Party Software Used
+## Why
 
+Dotfiles in a repo means:
+- **Portable** — one command sets up a new machine
+- **Version-controlled** — roll back bad changes
+- **Reproducible** — same tools and config everywhere
 
-* [pip-review](https://github.com/jgonggrijp/pip-review)
-	* *managing pip packages*
-* [GRC (coloring)](https://github.com/garabik/grc)
-	* *colorization*
-* [dotfiles-framework](https://github.com/wking/dotfiles-framework)
-	* *managing dotfiles*
+## New machine setup
 
+1. Install [Homebrew](https://brew.sh/)
+2. Install dependencies: `brew bundle`
+3. Install chezmoi and apply dotfiles:
+   ```sh
+   brew install chezmoi
+   chezmoi init --apply addisonlynch/dotfiles
+   ```
 
-## Aliases
+## Day-to-day usage
 
+```sh
+# Edit a dotfile (opens in editor, applies on save)
+chezmoi edit ~/.zshrc
 
-### Coreutils
+# Pull latest changes from the repo
+chezmoi update
 
-| Alias  | Command | Notes
-|:---|:---| :----|
-| ``..``  | ``cd ..``  | - |
-| ``...``  | ``cd ../.. `` | - |
-| ``....``  | ``cd ../../..``  |  - |
-| ``.....`` | ``cd ../../../..`` | - |
-| ``.3`` | ``cd ../..``  |  - |
-| ``.4``  | ``cd ../../..``  | - |
-| ``.5`` | ``cd ../../../..`` | - |
-| ``~`` | ``cd ~`` | - |
-| | |
-| ``c`` | ``clear`` | - |
-| ``cp`` | ``cp -iv`` | prompt before overwrite |
-| ``ll`` | ``ls -alGF`` | long listing, no group
-| ``llm`` | ``ls -alGF --block-size=m`` | long listing, no group with MB block size|
-| ``la`` | ``ls -A`` | long listing, no .. or . |
-| ``l`` | ``ls -CF`` | append indicator, list entries by column |
-| ``lr`` | ``ls -R \| grep ":$" \| sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/\|/'\'' \| less`` | full recursive directory listing
-| ``mkdir`` | ``mkdir -pv`` | make necessary parent directories |
-| ``mkd(DIR)`` | ``mkdir -p "$1" && cd "$1"`` | make dir and step inside |
-| ``mv`` | ``mv -iv`` | prompt before overwrite |
-| ``ff(FILENAME)`` | ``/usr/bin/find . -name "$@"`` | find file under current directory |
-| ``ffs(STR)`` | ``/usr/bin/find . -name "$@"'*'`` | find file whose name starts with ``STR`` |
-| ``ffe(STR)`` | ``/usr/bin/find . -name '*'"$@"`` | find file whose name ends with ``STR`` |
-| ``lsock`` | ``sudo lsof -i -P`` | list of all open sockets |
-| ``lsock_t`` | ``sudo lsof -i -P \| grep TCP`` | list of all open TCP sockets |
-| ``lsock_u`` | ``sudo lsof -i -P \| grep UDP`` | list of all open UDP sockets |
-| ``openPorts`` | ``sudo lsof -i \| grep LISTEN`` | list of all open ports
-| ``allPorts`` | ``sudo netstat -tulanp \| grep LISTEN`` | detailed list of all open ports |
-| ``firewall`` | ``sudo iptables -L -n -v --line-numbers`` | list all firewall rules
-| ``updateapt`` | ``sudo apt-get update && sudo apt-get upgrade`` | update and upgrade at the same time |
-| ``zipf(DIR)`` | ``zip -r "$1".zip "$1"`` | zip directory ``DIR`` |
-| ``ii`` | - | displays system information (users logged in, machine status, etc.) |
+# Add a new file to be managed
+chezmoi add ~/.some-config
 
-### System Resources
+# Preview what chezmoi would change
+chezmoi diff
 
+# Apply changes
+chezmoi apply
+```
 
+## Tools included
 
-| Alias  | Command | Notes
-|:---|:---| :----|
-| ``memhogs`` | ``ps auxf \| sort -nr -k 4 \| head -10``|
-| ``cpuhogs`` | ``ps auxf \| sort -nr -k 3 | head -10 |
-
-
-### tmux
-
-
-I am an avid user of [tmux](https://github.com/tmux/tmux). Below are some aliases which make the software more useful for me:
-
-#### System Aliases
-
-
-| Alias | Command | Notes
-| :---|:---|:---|
-| ``tat`` | ``tmux att -t`` | attach session|
-| ``tls`` | ``tmux ls`` | list sessions |
-| ``tkill`` | ``tmux kill-session -t`` | kill session|
-| ``trename`` | ``tmux rename-session -t`` | rename session |
-| ``tstart`` | ``tmuxp load`` | load session |
-| ``treload`` | ``tmux source-file ~/.tmux.conf`` | reload tmux from source |
-
-#### .tmux.conf bindings
-
-
-**\\\TODO**
-
-#### Plugins
-
-* [tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)
-* [tmux-gitbar](https://github.com/arl/tmux-gitbar)
-* [tmux-sidebar](https://github.com/tmux-plugins/tmux-sidebar)
-* [zoom](https://github.com/addisonlynch/dotfiles/blob/master/src/.tmux/plugins/zoom)
-    * Adds ``C-a x`` to toggle zooming of pane to fullscreen
-
-
-### Python
-
-
-Below are some Python-related aliases
-
-| Alias | Command | Notes
-| :---- | :--- | :---|
-| ``python3`` | ``python3.8`` | forces Python 3.8 shell |
-| ``pip3`` | ``python3.8 -m pip`` | forces pip 3.8 |
-| ``pip`` | ``python2.7 -m pip`` | forces pip 2.7 |
-| ``preview`` | ``pip-review`` | pip status using [pip-review](https://github.com/jgonggrijp/pip-review) |
-| ``pupdate`` | ``pip-review --auto`` | update all pip packages automatically |
-| ``pupdate_i`` | ``pip-review --interactive`` | update pip packages (step through one-by-one) |
-
-### Coloring Enhancements
-
-
-The following commands are colored using [GRC](https://github.com/garabik/grc) when available (all aliases not listed):
-
-* ``as``
-* ``diff``
-* ``dig``
-* ``g++``
-* ``gas``
-* ``gcc``
-* ``head``
-* ``ifconfig``
-* ``ld``
-* ``make``
-* ``mount``
-* ``netstat``
-* ``ping``
-* ``ps``
-* ``tail``
-* ``traceroute``
-
-## Environment Configuration
-
-I use the following software for various development environments:
-
-* Sublime Text 3
-
-
-### Sublime Text 3
-
-
-#### Configuration
-
-See
-
-
-#### Plugins
-
-* Sublime SFTP - *SFTP Client*
-* GitGutter - *Shows git diff in gutter*
-* Sublime-Notes - *Syntax highlighting for notetaking*
-* SublimeLinter - *Code linting*
-* TrailingSpaces - *Highlight and delete trailing whitespace*
-* MarkdownLivePreview - *Preview markdown*
-
-
-**Python**
-
-* AutoPEP8 - *Automatic PEP-8 formatting
-* Jedi - *Python auto-completion*
-* SublimeLinter-flake8 *SublimeLinter plugin for flake8*
-
-**Prolog**
-
-* Prolog - *Prolog syntax highlighting*
+- **[fzf](https://github.com/junegunn/fzf)** — fuzzy finder. Ctrl+R for searchable history, Ctrl+T for file finder
+- **[zoxide](https://github.com/ajeetdsouza/zoxide)** — smarter cd. Type `z myproject` instead of `cd ~/Documents/projects/myproject`
+- **[lazygit](https://github.com/jesseduffield/lazygit)** — terminal UI for git
+- **[yazi](https://github.com/sxyazi/yazi)** — terminal file manager
+- **[glow](https://github.com/charmbracelet/glow)** — markdown viewer in the terminal
