@@ -33,8 +33,9 @@ Dotfiles in a repo means:
    chezmoi init addisonlynch/dotfiles
    chezmoi apply
    ```
-4. Install third-party Claude skills (not tracked in this repo — managed by the skills CLI):
+4. Install third-party Claude skills (not tracked in this repo — managed by their own CLIs):
    ```sh
+   pip install graphifyy && graphify install
    npx skills add -g pbakaus/impeccable
    npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
    npx skills add -g wispbit-ai/skills --skill sqlalchemy-alembic-expert-best-practices-code-review
