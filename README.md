@@ -11,7 +11,6 @@ My macOS dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 | `dot_gitconfig` | Git identity and editor |
 | `dot_config/zsh/aliases.zsh` | Shell aliases — navigation, ls, shortcuts for lazygit/yazi |
 | `dot_config/zsh/git.zsh` | ~30 git aliases (gs, gd, ga, gc, gco, gp, etc.) |
-| `run_once_install-packages.sh` | Installs Homebrew + all packages from Brewfile on first run |
 | `Brewfile` | Declarative list of brew packages and casks |
 
 ## Why
@@ -21,14 +20,15 @@ Dotfiles in a repo means:
 - **Version-controlled** — roll back bad changes
 - **Reproducible** — same tools and config everywhere
 
-## Install on a new machine
+## New machine setup
 
-```sh
-brew install chezmoi
-chezmoi init --apply addisonlynch/dotfiles
-```
-
-This clones the repo, installs all brew packages, and copies configs into place.
+1. Install [Homebrew](https://brew.sh/)
+2. Install dependencies: `brew bundle`
+3. Install chezmoi and apply dotfiles:
+   ```sh
+   brew install chezmoi
+   chezmoi init --apply addisonlynch/dotfiles
+   ```
 
 ## Day-to-day usage
 
