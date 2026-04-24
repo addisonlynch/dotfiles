@@ -36,6 +36,7 @@ Dotfiles in a repo means:
 4. Install third-party Claude skills (not tracked in this repo — managed by the skills CLI):
    ```sh
    npx skills add -g pbakaus/impeccable
+   npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
    ```
 
 ## Day-to-day usage
