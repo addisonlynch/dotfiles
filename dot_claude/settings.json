@@ -87,7 +87,7 @@
     "playwright@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "autoUpdatesChannel": "stable",
   "skipDangerousModePermissionPrompt": true
 }
