@@ -83,7 +83,7 @@ Handles `~/.claude` specifically — see section below.
 Track these — they are hand-authored config:
 - `~/.claude/CLAUDE.md` → `dot_claude/CLAUDE.md`
 - `~/.claude/settings.json` → `dot_claude/settings.json`
-- Custom hand-written skills: `~/.claude/skills/graphify/`, `~/.claude/skills/grill-me/`, `~/.claude/skills/clean-spec/`
+- Custom hand-written skills in `~/.claude/skills/` (currently: clean-spec, deslop, dotfiles, grill-me, open-pr, remove-slop)
 
 Do NOT track these — managed by the skills CLI, reinstalled via bootstrap:
 - Third-party skills installed via `npx skills add` (impeccable, etc.)
@@ -97,6 +97,16 @@ When running `/dotfiles claude`:
 2. Add any untracked hand-authored files from the list above
 3. Run `chezmoi re-add` for any that are already tracked but modified
 4. Diff and commit
+5. Update READMEs (see below)
+
+## README maintenance
+
+The repo has two READMEs. After any sync or add operation, check whether the READMEs need updating and update them in the same commit:
+
+- **`README.md`** (repo root) — general dotfiles overview. Update the "What's in here" table if a new top-level dotfile is added or removed.
+- **`dot_claude/README.md`** — Claude Code config docs. Update the skills table when a hand-written skill is added or removed. Update third-party install commands if a new third-party skill is adopted.
+
+Do not ask for permission to update READMEs — just include the changes alongside the sync commit.
 
 ## Important rules
 
@@ -104,7 +114,8 @@ When running `/dotfiles claude`:
 - **Never push** to the remote without explicit user instruction.
 - **Never track secrets** — check any added file for API keys, tokens, or passwords before staging. If found, warn and abort.
 - Skills installed via `npx skills add` are NOT dotfiles — leave them alone. Only custom/hand-written skills belong in the repo.
-- The `.chezmoiignore` already excludes `docs/**`, `Brewfile`, and `README.md`. Don't add those.
+- `docs/` is gitignored and chezmoi-ignored — do not track or version it.
+- The `.chezmoiignore` excludes `Brewfile` and `README.md` from chezmoi apply. Don't add those to chezmoi tracking.
 
 ## Useful chezmoi commands
 
