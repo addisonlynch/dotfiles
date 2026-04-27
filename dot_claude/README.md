@@ -18,6 +18,7 @@ Skills in `skills/` are applied to `~/.claude/skills/` by chezmoi and are immedi
 
 | Skill | What it does |
 |---|---|
+| `ci-fix` | Diagnose and fix CI failures — read logs, fix locally, verify, push |
 | `clean-spec` | Transform specs into clean final-state documents |
 | `deslop` | Multi-agent review-readiness pass (rules, types, overengineering) |
 | `dotfiles` | Manage dotfiles via chezmoi from inside Claude Code |
