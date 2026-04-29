@@ -98,7 +98,7 @@ Full publish flow: all dotfiles including `~/.claude` in one shot.
 2. Ask the user how to publish (branch strategy, base branch, etc.) and wait for their answer.
 3. Surface the scope boundary once:
    > Skills installed via `npx skills add`, `~/.claude/plugins/`, `shell-snapshots/`, `statsig/`, and `projects/` are outside this repo's scope. Changes to those won't be in this PR.
-4. Update `dot_claude/README.md`: sync the hand-written skills table to match `~/.claude/skills/` (add/remove rows, refresh descriptions from `SKILL.md` frontmatter). Include this in the same commit.
+4. Update `dot_claude/README.md`: sync both skills tables — hand-written (from `~/.claude/skills/`) and third-party (from installed plugins). Both tables should reflect the full current inventory. Include this in the same commit.
 5. Create the branch, `chezmoi re-add` and `chezmoi add` all approved paths, stage, commit, and ask for confirmation before pushing.
 6. On confirmation: push and `gh pr create` with a short description of what changed.
 
@@ -106,7 +106,7 @@ Full publish flow: all dotfiles including `~/.claude` in one shot.
 
 After any sync, add, or upload operation, update READMEs in the same commit without asking for permission:
 - **`README.md`** (repo root): update the "What's in here" table when a top-level dotfile is added or removed.
-- **`dot_claude/README.md`**: update the skills table when a hand-authored skill is added, removed, or its description changes.
+- **`dot_claude/README.md`**: update both the hand-written and third-party skills tables to reflect the full current inventory.
 
 ## Useful chezmoi commands
 
