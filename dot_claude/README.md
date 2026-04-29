@@ -28,13 +28,16 @@ Skills in `skills/` are applied to `~/.claude/skills/` by chezmoi and are immedi
 | `save` | Append a structured session summary to the appropriate vault's daily log |
 | `sqlalchemy-alembic-expert-best-practices-code-review` | SQLAlchemy ORM and Alembic migration best practices review |
 
-**Third-party (not tracked — reinstall on new machines):**
+**Third-party (reinstall on new machines):**
 
-```sh
-pip install graphify && graphify install
-npx skills add -g pbakaus/impeccable
-npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
-```
+| Skill | What it does | Install |
+|---|---|---|
+| `graphify` | Any input → knowledge graph → clustered communities → HTML + JSON report | `pip install graphify && graphify install` |
+| `impeccable` | Production-grade frontend UI generation | `npx skills add -g pbakaus/impeccable` |
+| `python-testing-patterns` | pytest fixtures, mocking, and test strategies | `npx skills add -g wshobson/agents --skill python-testing-patterns` |
+| `python-code-style` | Python linting, formatting, and naming conventions | `npx skills add -g wshobson/agents --skill python-code-style` |
+| `python-design-patterns` | KISS, SRP, and Python design patterns | `npx skills add -g wshobson/agents --skill python-design-patterns` |
+| `python-anti-patterns` | Common Python anti-patterns to avoid | `npx skills add -g wshobson/agents --skill python-anti-patterns` |
 
 ## Adding a new skill
 
