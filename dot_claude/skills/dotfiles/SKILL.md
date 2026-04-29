@@ -1,6 +1,6 @@
 ---
 name: dotfiles
-description: Manage dotfiles via chezmoi — detect drift, sync changes from disk to repo, apply repo to disk, and add new files to tracking. Also handles ~/.claude config (CLAUDE.md, settings.json, custom skills). Trigger: /dotfiles
+description: Manage dotfiles via chezmoi — detect drift, sync changes from disk to repo, apply repo to disk, and add new files to tracking. Upload flow handles branch + PR. Trigger: /dotfiles
 trigger: /dotfiles
 ---
 
@@ -12,110 +12,101 @@ Manage the chezmoi dotfiles repo at `~/Documents/dotfiles2026`.
 
 - **Source repo**: `~/Documents/dotfiles2026` (git remote: `addisonlynch/dotfiles`)
 - **Chezmoi config**: `~/.config/chezmoi/chezmoi.toml`
-- **Current branch**: check with `git -C ~/Documents/dotfiles2026 branch --show-current`
-- **Claude config tracked separately** — see section below
 
 ## Usage
 
 ```
 /dotfiles              # show drift (what's changed between disk and repo)
-/dotfiles sync         # commit disk changes back to the repo
+/dotfiles status       # two-way: disk→repo unsynced + origin/master→disk unsynced
+/dotfiles sync         # commit disk changes back to the repo (no push)
 /dotfiles apply        # apply repo to disk (after pull or manual edit)
 /dotfiles add <path>   # start tracking a new file or directory
-/dotfiles claude       # sync ~/.claude config into the repo
+/dotfiles upload       # full publish flow: diff → branch → update README → PR
 ```
+
+## Tracking rules
+
+The following paths are tracked:
+- `~/.claude/CLAUDE.md` → `dot_claude/CLAUDE.md`
+- `~/.claude/settings.json` → `dot_claude/settings.json`
+- Hand-authored skills: every subdirectory of `~/.claude/skills/` that contains a `SKILL.md` with a `trigger:` frontmatter field. Discover at runtime — do not rely on a hardcoded list.
+
+Everything else in `~/.claude/` is untracked: `plugins/`, `shell-snapshots/`, `statsig/`, `projects/`, skills installed via `npx skills add`, and skills managed by their own CLI (e.g. `graphify install`). Those are reinstalled via bootstrap.
+
+The `.chezmoiignore` excludes `Brewfile`, `README.md`, and `dot_claude/README.md` from chezmoi apply — do not add those to chezmoi tracking.
+
+Before staging any file, check for API keys, tokens, or passwords. Abort and warn if found.
 
 ## Workflows
 
-### Detect drift (`/dotfiles` with no args)
+### `/dotfiles status`
 
-1. Run `chezmoi status` to list all managed files and their state
-2. Run `chezmoi diff` (repo→disk direction) and `chezmoi diff --reverse` (disk→repo direction)
-3. Present drift grouped by file with a one-line summary per file — what changed and in which direction:
+Shows what's out of sync in both directions against `origin/master`.
+
+1. `git -C ~/Documents/dotfiles2026 fetch origin` — always fetch first; the local clone may be on a feature branch or behind remote.
+2. Run `chezmoi diff --reverse` and summarize disk→repo drift by file:
    ```
-   ~/.zshrc          → repo has more (disk is missing 34 lines)
-   ~/.claude/CLAUDE.md → disk has more (new content not in repo)
+   Disk → repo (unsynced local changes):
+     ~/.claude/settings.json   — modified
+     ~/.claude/skills/dotfiles — modified
+     ~/.zshrc                  — 3 lines added
    ```
-4. Ask the user what they want to do with each (sync to repo, apply from repo, or skip)
-
-### Sync disk → repo (`/dotfiles sync`)
-
-This is the "I made changes on my machine, commit them" flow.
-
-1. Check current branch with `git -C ~/Documents/dotfiles2026 branch --show-current`
-   - If on `master`: warn the user and ask for confirmation before proceeding. Suggest creating a feature branch instead.
-   - If on any other branch: proceed without prompting.
-2. Run `chezmoi diff --reverse` to preview what re-add would do — this shows disk→repo direction WITHOUT writing anything.
-3. Parse the diff and present it grouped by file with a short summary of what changed in each:
+   If nothing: "Disk is fully synced to local repo."
+3. Run `git log HEAD..origin/master --oneline` and `git diff HEAD..origin/master --stat` and summarize origin/master→disk:
    ```
-   ~/.zshrc          — 34 lines removed (stripped to 2 lines)
-   ~/.gitconfig      — [core] and [init] sections missing
-   ~/.claude/CLAUDE.md — full rewrite (expected)
+   origin/master → disk (remote changes not yet applied):
+     3 commits ahead of your local HEAD
+     dot_zshrc — 10 lines changed
    ```
-4. Ask the user which files to sync. Default to none — require explicit confirmation per file or "all".
-5. For approved files only, run `chezmoi re-add <path>` individually (chezmoi re-add accepts specific paths).
-6. Stage only the approved files: `git -C ~/Documents/dotfiles2026 add <paths>`
-7. Commit with a short descriptive message.
-8. Do NOT push — user pushes explicitly.
+   If at parity: "Local repo is up to date with origin/master."
+4. Show the current branch: `git -C ~/Documents/dotfiles2026 branch --show-current`
+5. Offer next steps: `/dotfiles sync`, `/dotfiles apply`, `/dotfiles upload`.
 
-### Apply repo → disk (`/dotfiles apply`)
+### `/dotfiles` (no args)
 
-This is the "I updated the repo, apply to my machine" flow.
+1. Run `chezmoi status` and `chezmoi diff` / `chezmoi diff --reverse`.
+2. Present drift grouped by file with a one-line summary per file and direction.
+3. Ask the user what to do with each file (sync to repo, apply from repo, or skip).
 
-1. Run `chezmoi diff` first so the user sees what will change on disk
-2. Ask for confirmation before applying
-3. Run `chezmoi apply`
-4. Report what was written
+### `/dotfiles sync`
 
-### Add a new file (`/dotfiles add <path>`)
+Commits disk changes to the local repo. Does not push.
 
-1. Run `chezmoi add <path>`
-2. Show what was added to the source dir
-3. Stage and commit it
-4. If the path is inside `~/.config/`, confirm it goes into `dot_config/` in the source
+1. Check current branch. If on `master`, warn and suggest a feature branch before proceeding.
+2. Run `chezmoi diff --reverse` (preview only — no writes) and present a grouped summary.
+3. Ask which files to sync. Default to none; require explicit confirmation per file or "all".
+4. `chezmoi re-add <path>` for each approved file individually.
+5. `git -C ~/Documents/dotfiles2026 add <approved paths>` then commit with a short message.
 
-### Sync Claude config (`/dotfiles claude`)
+### `/dotfiles apply`
 
-Handles `~/.claude` specifically — see section below.
+1. Run `chezmoi diff` and show what will change on disk.
+2. Ask for confirmation.
+3. `chezmoi apply`. Report what was written.
 
-## ~/.claude in chezmoi
+### `/dotfiles add <path>`
 
-Track these — they are hand-authored config:
-- `~/.claude/CLAUDE.md` → `dot_claude/CLAUDE.md`
-- `~/.claude/settings.json` → `dot_claude/settings.json`
-- Custom hand-written skills in `~/.claude/skills/` (currently: clean-spec, deslop, dotfiles, grill-me, open-pr, remove-slop)
+1. `chezmoi add <path>`. Show what was added to the source dir.
+2. Stage and commit.
+3. Paths inside `~/.config/` go into `dot_config/` in the source.
 
-Do NOT track these — managed by the skills CLI, reinstalled via bootstrap:
-- Third-party skills installed via `npx skills add` (impeccable, etc.)
-- `~/.claude/plugins/` cache
-- `~/.claude/shell-snapshots/`
-- `~/.claude/statsig/`
-- `~/.claude/projects/` (session memory, not config)
+### `/dotfiles upload`
 
-When running `/dotfiles claude`:
-1. Check if `dot_claude/` exists in the source repo yet
-2. Add any untracked hand-authored files from the list above
-3. Run `chezmoi re-add` for any that are already tracked but modified
-4. Diff and commit
-5. Update READMEs (see below)
+Full publish flow: all dotfiles including `~/.claude` in one shot.
+
+1. Run `chezmoi diff --reverse` and list all changed files with one-line summaries. Also scan `~/.claude/skills/` for skills not yet in chezmoi (subdirs with `SKILL.md` + `trigger:` that aren't in `chezmoi managed`).
+2. Ask the user how to publish (branch strategy, base branch, etc.) and wait for their answer.
+3. Surface the scope boundary once:
+   > Skills installed via `npx skills add`, `~/.claude/plugins/`, `shell-snapshots/`, `statsig/`, and `projects/` are outside this repo's scope. Changes to those won't be in this PR.
+4. Update `dot_claude/README.md`: sync both skills tables — hand-written (from `~/.claude/skills/`) and third-party (from installed plugins). Both tables should reflect the full current inventory. Include this in the same commit.
+5. Create the branch, `chezmoi re-add` and `chezmoi add` all approved paths, stage, commit, and ask for confirmation before pushing.
+6. On confirmation: push and `gh pr create` with a short description of what changed.
 
 ## README maintenance
 
-The repo has two READMEs. After any sync or add operation, check whether the READMEs need updating and update them in the same commit:
-
-- **`README.md`** (repo root) — general dotfiles overview. Update the "What's in here" table if a new top-level dotfile is added or removed.
-- **`dot_claude/README.md`** — Claude Code config docs. Update the skills table when a hand-written skill is added or removed. Update third-party install commands if a new third-party skill is adopted.
-
-Do not ask for permission to update READMEs — just include the changes alongside the sync commit.
-
-## Important rules
-
-- **Never `chezmoi apply` without showing the diff first** and getting confirmation. Applying writes to the live home directory.
-- **Never push** to the remote without explicit user instruction.
-- **Never track secrets** — check any added file for API keys, tokens, or passwords before staging. If found, warn and abort.
-- Skills installed via `npx skills add` are NOT dotfiles — leave them alone. Only custom/hand-written skills belong in the repo.
-- `docs/` is gitignored and chezmoi-ignored — do not track or version it.
-- The `.chezmoiignore` excludes `Brewfile` and `README.md` from chezmoi apply. Don't add those to chezmoi tracking.
+After any sync, add, or upload operation, update READMEs in the same commit without asking for permission:
+- **`README.md`** (repo root): update the "What's in here" table when a top-level dotfile is added or removed.
+- **`dot_claude/README.md`**: update both the hand-written and third-party skills tables to reflect the full current inventory.
 
 ## Useful chezmoi commands
 
@@ -123,10 +114,10 @@ Do not ask for permission to update READMEs — just include the changes alongsi
 chezmoi status                    # M=modified, A=added to source, D=deleted
 chezmoi diff                      # full diff: what apply would do to disk
 chezmoi diff --reverse            # reverse: what re-add would do to source
-chezmoi re-add                    # pull disk state back into source (sync disk→repo)
-chezmoi add ~/.zshrc              # start tracking a file
-chezmoi apply                     # apply source to disk
-chezmoi apply ~/.zshrc            # apply single file
+chezmoi managed                   # list all tracked paths
+chezmoi re-add <path>             # pull specific file from disk into source
+chezmoi add <path>                # start tracking a new file
+chezmoi apply [<path>]            # apply source to disk (optionally scoped)
 git -C ~/Documents/dotfiles2026 status
 git -C ~/Documents/dotfiles2026 diff
 ```

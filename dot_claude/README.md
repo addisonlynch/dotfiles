@@ -25,15 +25,19 @@ Skills in `skills/` are applied to `~/.claude/skills/` by chezmoi and are immedi
 | `grill-me` | Stress-test a plan or design through relentless questioning |
 | `open-pr` | Full pre-PR quality pipeline — verify, deslop, then open PR |
 | `remove-slop` | Find and remove AI-generated filler |
+| `save` | Append a structured session summary to the appropriate vault's daily log |
+| `sqlalchemy-alembic-expert-best-practices-code-review` | SQLAlchemy ORM and Alembic migration best practices review |
 
-**Third-party (not tracked — reinstall on new machines):**
+**Third-party (reinstall on new machines):**
 
-```sh
-pip install graphifyy && graphify install
-npx skills add -g pbakaus/impeccable
-npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
-npx skills add -g wispbit-ai/skills --skill sqlalchemy-alembic-expert-best-practices-code-review
-```
+| Skill | What it does | Install |
+|---|---|---|
+| `graphify` | Any input → knowledge graph → clustered communities → HTML + JSON report | `pip install graphify && graphify install` |
+| `impeccable` | Production-grade frontend UI generation | `npx skills add -g pbakaus/impeccable` |
+| `python-testing-patterns` | pytest fixtures, mocking, and test strategies | `npx skills add -g wshobson/agents --skill python-testing-patterns` |
+| `python-code-style` | Python linting, formatting, and naming conventions | `npx skills add -g wshobson/agents --skill python-code-style` |
+| `python-design-patterns` | KISS, SRP, and Python design patterns | `npx skills add -g wshobson/agents --skill python-design-patterns` |
+| `python-anti-patterns` | Common Python anti-patterns to avoid | `npx skills add -g wshobson/agents --skill python-anti-patterns` |
 
 ## Adding a new skill
 
@@ -42,9 +46,9 @@ npx skills add -g wispbit-ai/skills --skill sqlalchemy-alembic-expert-best-pract
 # 2. Add it to chezmoi tracking
 chezmoi add ~/.claude/skills/my-skill
 # 3. Sync to the dotfiles repo
-/dotfiles claude
+/dotfiles upload
 ```
 
 ## Syncing changes
 
-Use `/dotfiles claude` from any Claude Code session to sync `~/.claude` config into this repo. It handles adding new skills and re-adding modified files.
+Use `/dotfiles upload` from any Claude Code session to sync `~/.claude` config into this repo, branch, and open a PR.
