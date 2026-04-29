@@ -31,7 +31,7 @@ The following paths are tracked:
 - `~/.claude/settings.json` → `dot_claude/settings.json`
 - Hand-authored skills: every subdirectory of `~/.claude/skills/` that contains a `SKILL.md` with a `trigger:` frontmatter field. Discover at runtime — do not rely on a hardcoded list.
 
-Everything else in `~/.claude/` is untracked: `plugins/`, `shell-snapshots/`, `statsig/`, `projects/`, and skills installed via `npx skills add` (those live under `plugins/` and are reinstalled via bootstrap).
+Everything else in `~/.claude/` is untracked: `plugins/`, `shell-snapshots/`, `statsig/`, `projects/`, skills installed via `npx skills add`, and skills managed by their own CLI (e.g. `graphify install`). Those are reinstalled via bootstrap.
 
 The `.chezmoiignore` excludes `Brewfile`, `README.md`, and `dot_claude/README.md` from chezmoi apply — do not add those to chezmoi tracking.
 

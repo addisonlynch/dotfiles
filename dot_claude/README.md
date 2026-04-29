@@ -22,7 +22,6 @@ Skills in `skills/` are applied to `~/.claude/skills/` by chezmoi and are immedi
 | `clean-spec` | Transform specs into clean final-state documents |
 | `deslop` | Multi-agent review-readiness pass (rules, types, overengineering) |
 | `dotfiles` | Manage dotfiles via chezmoi from inside Claude Code |
-| `graphify` | Any input → knowledge graph → clustered communities → HTML + JSON report |
 | `grill-me` | Stress-test a plan or design through relentless questioning |
 | `open-pr` | Full pre-PR quality pipeline — verify, deslop, then open PR |
 | `remove-slop` | Find and remove AI-generated filler |
@@ -32,6 +31,7 @@ Skills in `skills/` are applied to `~/.claude/skills/` by chezmoi and are immedi
 **Third-party (not tracked — reinstall on new machines):**
 
 ```sh
+pip install graphify && graphify install
 npx skills add -g pbakaus/impeccable
 npx skills add -g wshobson/agents --skill python-testing-patterns python-code-style python-design-patterns python-anti-patterns
 ```
