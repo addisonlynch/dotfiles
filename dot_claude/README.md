@@ -9,7 +9,6 @@ Global Claude Code configuration, managed alongside dotfiles via chezmoi.
 | `CLAUDE.md` | Global behavioral guidelines — applied to every Claude Code session |
 | `settings.json` | Permissions, hooks, and enabled plugins |
 | `skills/` | Hand-written global skills (see below) |
-| `scripts/` | Shared helper scripts available to per-project hooks (see below) |
 
 ## Skills
 
@@ -46,43 +45,6 @@ chezmoi add ~/.claude/skills/my-skill
 # 3. Sync to the dotfiles repo
 /dotfiles upload
 ```
-
-## Scripts
-
-Shared helpers in `scripts/` are applied to `~/.claude/scripts/` by chezmoi. They're available globally but **opt-in per project** — projects must wire them up via their own `.claude/settings.local.json` hooks.
-
-| Script | What it does |
-|---|---|
-| `session-log.sh` | `SessionEnd` hook that summarizes the session and appends a structured entry to a project's vault sessions log |
-
-### `session-log.sh` — opt-in per project
-
-Reads three env vars set by the calling hook. If `SESSIONS_DIR` is unset the script exits silently — safe to invoke from any project that hasn't opted in.
-
-| Var | Required | What it does |
-|---|---|---|
-| `SESSIONS_DIR` | yes | directory where `YYYY-MM-DD.md` daily logs accumulate |
-| `WIKI_INDEX` | no | path to `wiki/index.md` so the LLM can `[[ ]]`-link known concepts |
-| `PROJECT_NAME` | no | label used in the summarization prompt |
-
-To opt a project in, add this to its `.claude/settings.local.json` (gitignored):
-
-```json
-{
-  "hooks": {
-    "SessionEnd": [
-      {
-        "type": "command",
-        "command": "SESSIONS_DIR='/path/to/vault/sessions' WIKI_INDEX='/path/to/vault/wiki/index.md' PROJECT_NAME='ProjectName' bash ~/.claude/scripts/session-log.sh"
-      }
-    ]
-  }
-}
-```
-
-Each daily log file accumulates entries with structured frontmatter (time, branch, files, concepts, status, blockers, followups, session_id) plus 3–8 imperative-voice bullets at standup altitude. The LLM outputs literal `SKIP` for non-substantive sessions and the script writes nothing.
-
-The summarization runs in a backgrounded subshell so `SessionEnd` returns immediately.
 
 ## Syncing changes
 
