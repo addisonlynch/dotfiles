@@ -30,6 +30,8 @@ Manage the chezmoi dotfiles repo at `~/Documents/dotfiles2026`.
 The following paths are tracked:
 - `~/.claude/CLAUDE.md` → `dot_claude/CLAUDE.md`
 - `~/.claude/settings.json` → `dot_claude/settings.json`
+- `~/.config/zsh/aliases.zsh` → `dot_config/zsh/aliases.zsh`
+- `~/.zshrc` → `dot_zshrc`
 - Hand-authored skills: every subdirectory of `~/.claude/skills/` that contains a `SKILL.md` with a `trigger:` frontmatter field. Discover at runtime — do not rely on a hardcoded list.
 
 Everything else in `~/.claude/` is untracked: `plugins/`, `shell-snapshots/`, `statsig/`, `projects/`, skills installed via `npx skills add`, and skills managed by their own CLI (e.g. `graphify install`). Those are reinstalled via bootstrap.
