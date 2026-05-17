@@ -14,6 +14,10 @@ alias g="git"
 alias lg="lazygit"
 alias y="yazi"
 
+# ── Claude ──────────────────────────────────────────────
+alias cc='cmux claude-teams --dangerously-skip-permissions'
+alias cco='cmux claude-teams --dangerously-skip-permissions --model opus'
+
 # ── Grep ────────────────────────────────────────────────
 alias grep="grep --color=auto"
 

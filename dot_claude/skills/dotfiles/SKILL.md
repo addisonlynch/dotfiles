@@ -22,6 +22,7 @@ Manage the chezmoi dotfiles repo at `~/Documents/dotfiles2026`.
 /dotfiles apply        # apply repo to disk (after pull or manual edit)
 /dotfiles add <path>   # start tracking a new file or directory
 /dotfiles upload       # full publish flow: diff → branch → update README → PR
+/dotfiles update       # update everything: chezmoi pull/apply + npx skills + graphify
 ```
 
 ## Tracking rules
@@ -29,6 +30,8 @@ Manage the chezmoi dotfiles repo at `~/Documents/dotfiles2026`.
 The following paths are tracked:
 - `~/.claude/CLAUDE.md` → `dot_claude/CLAUDE.md`
 - `~/.claude/settings.json` → `dot_claude/settings.json`
+- `~/.config/zsh/aliases.zsh` → `dot_config/zsh/aliases.zsh`
+- `~/.zshrc` → `dot_zshrc`
 - Hand-authored skills: every subdirectory of `~/.claude/skills/` that contains a `SKILL.md` with a `trigger:` frontmatter field. Discover at runtime — do not rely on a hardcoded list.
 
 Everything else in `~/.claude/` is untracked: `plugins/`, `shell-snapshots/`, `statsig/`, `projects/`, skills installed via `npx skills add`, and skills managed by their own CLI (e.g. `graphify install`). Those are reinstalled via bootstrap.
@@ -83,6 +86,17 @@ Commits disk changes to the local repo. Does not push.
 1. Run `chezmoi diff` and show what will change on disk.
 2. Ask for confirmation.
 3. `chezmoi apply`. Report what was written.
+
+### `/dotfiles update`
+
+Pulls and applies all third-party tooling that lives outside chezmoi tracking, plus pulls the latest dotfiles repo. Run periodically (weekly-ish) or before starting a fresh project.
+
+1. **Dotfiles repo**: `git -C ~/Documents/dotfiles2026 pull --ff-only origin master`. If there's drift, surface it and ask before continuing — don't clobber local changes.
+2. **Chezmoi apply**: `chezmoi diff` first; if anything would change on disk, show it and confirm. Then `chezmoi apply`.
+3. **Global npx skills**: `npx -y skills update -g -y`. Reports per-skill version bumps.
+4. **Graphify** (the CLI tool, not per-project graphs): the PyPI package is `graphifyy` (double y), installed into the active pyenv at `~/.pyenv/versions/$(pyenv version-name)/bin`. Run `pip install -U graphifyy`. Show the version before/after.
+
+Do not touch project-local `npx skills` lock files or per-project `graphify-out/` graphs — those are per-repo concerns, not global tooling.
 
 ### `/dotfiles add <path>`
 

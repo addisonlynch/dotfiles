@@ -20,10 +20,12 @@ Dotfile changes are managed through the `/dotfiles` Claude Code skill, which wra
 
 ```
 /dotfiles              # show drift between disk and repo
+/dotfiles status       # two-way: disk→repo unsynced + origin/master→disk unsynced
 /dotfiles sync         # commit disk changes to the repo (per-file approval)
 /dotfiles apply        # apply repo to disk (shows diff first)
 /dotfiles add <path>   # start tracking a new file
-/dotfiles claude       # sync ~/.claude config specifically
+/dotfiles upload       # full publish flow: diff → branch → update README → PR
+/dotfiles update       # pull repo + apply + npx skills update + upgrade graphify
 ```
 
 Raw chezmoi if needed:
@@ -86,6 +88,13 @@ Default branch `main`, VS Code as editor/diff tool.
 | `g` | `git` |
 | `lg` | `lazygit` |
 | `y` | `yazi` |
+
+**Claude:**
+
+| Alias | Command |
+|---|---|
+| `cc` | `cmux claude-teams --dangerously-skip-permissions` (Sonnet) |
+| `cco` | `cmux claude-teams --dangerously-skip-permissions --model opus` |
 
 **Networking:**
 

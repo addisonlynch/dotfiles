@@ -15,7 +15,7 @@ Use this skill after the change is functionally correct and before `commit`. The
 
 ## Required review vectors
 
-Launch exactly these 3 parallel subagents as soon as the context bundle is ready.
+Launch exactly these 4 parallel subagents as soon as the context bundle is ready.
 Give all of them the same context bundle, but assign each a different review vector:
 
 1. **Rules and documentation conformance**
@@ -34,6 +34,26 @@ Give all of them the same context bundle, but assign each a different review vec
    - Did we write more code than needed?
    - Did we create helpers, abstractions, factories, wrappers, or indirection without enough payoff?
    - Could the same result be expressed more directly?
+
+4. **AI slop**
+   - Comments that restate the next line (`# increment counter`)
+   - Section banner comments (`# === HELPERS ===`)
+   - Narration comments (`# First, we...`, `# Now let's...`)
+   - Docstrings on private helpers that just restate the signature
+   - Apologetic hedges (`# This might need refactoring`)
+   - `print("Starting...")` / `print("Done!")` style logging with no value
+   - Try/except that just re-raises with a worse message
+   - Defensive None checks on values that can't be None
+   - Wrapper functions that add no logic; single-use "utility" functions
+   - **Keep-list (do NOT remove these):**
+     - Docstrings on public APIs (anything exported, anything in a class's public surface)
+     - Linter/type-checker directives: `# noqa`, `# type: ignore`, `# pragma`, `eslint-disable`, `@ts-expect-error`
+     - License/SPDX headers
+     - Comments referencing an issue, RFC, ticket, spec, or external link
+     - Comments above regex, bitwise ops, or perf-sensitive code
+     - TODO/FIXME with author or ticket reference
+     - "Why" comments explaining a non-obvious constraint, workaround, or invariant
+   - **Heuristic:** if removing the comment loses information not recoverable from reading the next 1–3 lines, keep it.
 
 ## Required context bundle
 
